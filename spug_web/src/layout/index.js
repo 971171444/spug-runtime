@@ -51,6 +51,7 @@ export default function () {
             <Route component={NotFound}/>
           </Switch>
         </Layout.Content>
+        <Footer/>
       </Layout>
     </Layout>
   )
