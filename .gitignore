@@ -1,1 +1,49 @@
 /.idea/
+.DS_Store
+*.DS_Store
+**/.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+spug_env/
+venv/
+env/
+ENV/
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+logs/
+
+# Docker
+.dockerignore
+
+# Test files
+test_*.sh
+*.test
+
+# Temporary files
+*.tmp
+*.bak
+*.backup
+
+# Version packages (too large for git)
+jdk/*.tar.gz
+maven/*.tar.gz
+node/*.tar.gz

@@ -16,9 +16,22 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 import re
+from urllib.parse import quote
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# 加载.env文件（如果存在）
+try:
+    from dotenv import load_dotenv
+    env_path = os.path.join(BASE_DIR, '.env')
+    load_dotenv(env_path)
+except ImportError:
+    # 如果没有安装python-dotenv，则跳过
+    pass
+except Exception:
+    # 如果.env文件不存在或其他错误，则跳过
+    pass
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -68,15 +81,43 @@ ASGI_APPLICATION = 'spug.routing.application'
 DATABASES = {
     'default': {
         'ATOMIC_REQUESTS': True,
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'auth_plugin':'mysql_native_password',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.environ.get('MYSQL_DATABASE'),
+        'USER': os.environ.get('MYSQL_USER'),
+        'PASSWORD': os.environ.get('MYSQL_PASSWORD'),
+        'HOST': os.environ.get('MYSQL_HOST'),
+        'PORT': os.environ.get('MYSQL_PORT'),
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+            'sql_mode': 'STRICT_TRANS_TABLES',
+        }
     }
 }
+
+# Redis配置
+REDIS_HOST = os.environ.get('REDIS_HOST', '127.0.0.1')
+REDIS_PORT = os.environ.get('REDIS_PORT', '6379')
+REDIS_DB = os.environ.get('REDIS_DB', '1')
+REDIS_PASSWORD = os.environ.get('REDIS_PASSWORD', '')
+
+# 处理 Redis 密码（如果为空字符串，视为无密码）
+if REDIS_PASSWORD and REDIS_PASSWORD.strip():
+    quoted_pwd = quote(REDIS_PASSWORD, safe='')
+    redis_location = f"redis://:{quoted_pwd}@{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB}"
+    # channels_redis 有密码时使用字典格式
+    redis_channel_host = {
+        "address": f"redis://:{quoted_pwd}@{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB}",
+    }
+else:
+    redis_location = f"redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB}"
+    # channels_redis 无密码时使用元组格式
+    redis_channel_host = (REDIS_HOST, int(REDIS_PORT))
 
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/1",
+        "LOCATION": redis_location,
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
@@ -87,7 +128,7 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("127.0.0.1", 6379)],
+            "hosts": [redis_channel_host],
             "capacity": 1000,
             "expiry": 120,
         },
