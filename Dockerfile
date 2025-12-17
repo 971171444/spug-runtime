@@ -62,11 +62,9 @@ RUN mkdir -p /opt/ext
 # =====================================================================
 COPY script/*.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/*.sh && \
-    ln -sf /usr/local/bin/usejdk.sh /usr/local/bin/usejdk && \
-    ln -sf /usr/local/bin/usemvn.sh /usr/local/bin/usemvn && \
-    ln -sf /usr/local/bin/usenode.sh /usr/local/bin/usenode && \
+    ln -sf /usr/local/bin/envctl.sh /usr/local/bin/useenv && \
     mkdir -p /data/repos /data/spug/spug_api /data/spug/spug_web/build /opt/ext && \
-    echo 'source /usr/local/bin/functions.sh 2>/dev/null || true' >> /root/.bashrc
+    echo 'source /usr/local/bin/envctl.sh 2>/dev/null || true' >> /root/.bashrc
 
 # =====================================================================
 # 拷贝配置文件和业务代码
