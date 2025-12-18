@@ -57,9 +57,14 @@
 
 2) 构建镜像  
    ```bash
-   git clone https://github.com/971171444/spug-enhanced-runtime.git
-   cd spug-enhanced-runtime
-   docker build -t spug-enhanced:latest .
+   git clone https://github.com/971171444/spug-runtime.git
+   cd spug-runtime
+   docker build -t spug-runtime:latest .
+   # 或自定义
+   docker build \
+   --build-arg SPUG_REPO=https://github.com/openspug/spug.git \
+   --build-arg SPUG_REF=3.0 \
+   -t spug-runtime:latest .
    ```
 
 3) 使用 Docker Compose 启动  
@@ -68,7 +73,7 @@
    version: "3.9"
    services:
      spug:
-       image: spug-enhanced:latest
+       image: spug-runtime:latest
        container_name: spug
        privileged: true
        restart: always

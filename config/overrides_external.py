@@ -27,21 +27,32 @@ DATABASES = {
 
 # 外部 Redis
 REDIS_HOST = os.environ.get("REDIS_HOST", "127.0.0.1")
-REDIS_PORT = os.environ.get("REDIS_PORT", "6379")
-REDIS_DB = os.environ.get("REDIS_DB", "1")
+REDIS_PORT = int(os.environ.get("REDIS_PORT", "6379"))
+REDIS_DB = int(os.environ.get("REDIS_DB", "1"))
 REDIS_PASSWORD = os.environ.get("REDIS_PASSWORD", "")
 
+# django-redis 缓存配置（使用 URL 格式）
 if REDIS_PASSWORD and REDIS_PASSWORD.strip():
     quoted_pwd = quote(REDIS_PASSWORD, safe="")
     redis_location = f"redis://:{quoted_pwd}@{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB}"
-    # channels_redis 有密码时使用字典格式
-    redis_channel_host = {
-        "address": f"redis://:{quoted_pwd}@{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB}"
-    }
 else:
     redis_location = f"redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB}"
-    # channels_redis 无密码时使用元组格式
-    redis_channel_host = (REDIS_HOST, int(REDIS_PORT))
+
+# channels_redis 配置（WebSocket 使用）
+# channels_redis 需要明确的 host, port, password, db 参数
+if REDIS_PASSWORD and REDIS_PASSWORD.strip():
+    # 有密码时使用字典格式，分别指定参数
+    redis_channel_host = {
+        "address": (REDIS_HOST, REDIS_PORT),
+        "password": REDIS_PASSWORD,  # 直接使用原始密码，不需要 URL 编码
+        "db": REDIS_DB,
+    }
+else:
+    # 无密码时也使用字典格式，确保 db 参数正确传递
+    redis_channel_host = {
+        "address": (REDIS_HOST, REDIS_PORT),
+        "db": REDIS_DB,
+    }
 
 CACHES = {
     "default": {
