@@ -93,7 +93,7 @@
          MYSQL_PORT: 3306
          REDIS_HOST: 127.0.0.1
          REDIS_PORT: 6379
-         REDIS_PASSWORD: Shkj@123!@#
+         REDIS_PASSWORD: password
          REDIS_DB: 8
    ```
    保存为 `docker-compose.yml` 后执行：
