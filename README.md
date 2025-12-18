@@ -89,10 +89,10 @@
          MYSQL_DATABASE: spug
          MYSQL_USER: spug
          MYSQL_PASSWORD: your_password
-         MYSQL_HOST: 10.0.2.23
-         MYSQL_PORT: 9307
-         REDIS_HOST: 192.168.1.147
-         REDIS_PORT: 9379
+         MYSQL_HOST: 127.0.0.1
+         MYSQL_PORT: 3306
+         REDIS_HOST: 127.0.0.1
+         REDIS_PORT: 6379
          REDIS_PASSWORD: Shkj@123!@#
          REDIS_DB: 8
    ```
