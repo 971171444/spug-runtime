@@ -1,6 +1,6 @@
 # Spug Enhanced Runtime
 
-> **基于 [Spug](https://github.com/openspug/spug) 二次开发的增强版容器运行时环境**
+> **基于 [Spug](https://github.com/openspug/spug) 的增强版容器运行时环境**
 
 [![License](https://img.shields.io/badge/license-AGPL--3.0-blue.svg)](https://opensource.org/licenses/AGPL-3.0)
 [![Based on Spug](https://img.shields.io/badge/based%20on-Spug-green.svg)](https://github.com/openspug/spug)
