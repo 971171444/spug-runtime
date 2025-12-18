@@ -1,0 +1,25 @@
+services:
+  spug:
+    image: spug-runtime
+    container_name: spug
+    privileged: true
+    restart: always
+    volumes:
+      - ./jdk:/opt/ext/jdk:ro
+      - ./maven:/opt/ext/maven:ro
+      - ./spug/node:/opt/ext/node:ro
+      # 覆盖官方 Django 配置，实现外部 MySQL/Redis
+      - ./overrides/overrides_external.py:/data/spug/spug_api/spug/overrides.py:ro
+    ports:
+      # 如果80端口被占用可替换为其他端口，例如: - "8000:80"
+      - "18083:80"
+    environment:
+      - MYSQL_DATABASE=spug
+      - MYSQL_USER=spug
+      - MYSQL_PASSWORD=123456
+      - MYSQL_HOST=127.0.0.1
+      - MYSQL_PORT=3306
+      - REDIS_HOST=127.0.0.1
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=
+      - REDIS_DB=8
