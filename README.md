@@ -7,7 +7,7 @@
 
 ## 📋 项目说明
 
-本项目基于 [Spug](https://github.com/openspug/spug) 开源运维平台进行二次开发，主要针对容器运行时环境进行了功能增强和优化。
+本项目基于 [Spug](https://github.com/openspug/spug) 开源运维平台进行增强运行时环境，主要针对容器运行时环境进行了功能增强和优化。
 
 **原项目信息**：
 - 原项目地址：https://github.com/openspug/spug
@@ -36,12 +36,6 @@
 - ✅ 移除内置的 JDK/Maven/Node.js 安装包，大幅减小镜像体积
 - ✅ 使用 Ubuntu 22.04 LTS 作为基础镜像（更稳定、更现代）
 - ✅ 优化构建层数，减少镜像大小
-
-### 4. 其他优化
-- ✅ 修复 Redis 密码认证问题
-- ✅ 修复 Nginx 用户权限问题
-- ✅ 优化 Python 依赖版本兼容性
-- ✅ 改进容器启动脚本
 
 ## 🚀 快速开始
 
