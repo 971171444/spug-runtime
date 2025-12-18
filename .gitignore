@@ -47,3 +47,10 @@ test_*.sh
 jdk/*.tar.gz
 maven/*.tar.gz
 node/*.tar.gz
+
+# Spug source code (pulled from GitHub during build, not stored locally)
+spug_api/
+spug_web/
+
+# Build cache (frontend build + source code, for faster rebuilds)
+.build-cache/
